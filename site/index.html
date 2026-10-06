@@ -303,22 +303,24 @@
 </script>
 <script>
 (function(){
- const items=Array.from(document.querySelectorAll('.gallery-item'));
+ const items=()=>Array.from(document.querySelectorAll('.gallery-item'));
  const dialog=document.getElementById('gallery-lightbox');
  const image=document.getElementById('lightbox-image');
  const caption=document.getElementById('lightbox-caption');
  let current=0;
  const show=index=>{
-   current=(index+items.length)%items.length;
-   const source=items[current].querySelector('img');
+   const all=items();if(!all.length)return;
+   current=(index+all.length)%all.length;
+   const source=all[current].querySelector('img');
    image.src=source.src;
    image.alt=source.alt;
    caption.textContent=source.alt;
  };
- items.forEach((item,index)=>item.addEventListener('click',()=>{
-   show(index);
+ document.querySelector('.gallery').addEventListener('click',event=>{
+   const item=event.target.closest('.gallery-item');if(!item)return;
+   show(items().indexOf(item));
    dialog.showModal();
- }));
+ });
  document.getElementById('lightbox-prev').addEventListener('click',()=>show(current-1));
  document.getElementById('lightbox-next').addEventListener('click',()=>show(current+1));
  document.getElementById('lightbox-close').addEventListener('click',()=>dialog.close());
@@ -329,5 +331,6 @@
  });
 })();
 </script>
+<script type="module" src="cms-public.js"></script>
 </body>
 </html>
