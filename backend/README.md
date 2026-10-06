@@ -1,8 +1,14 @@
 # Chabad Nesher content management
 
-Deployment status: prepared, not activated. The public site retains its static
-content until `site/cms-config.js` has a valid dedicated Supabase project URL
-and publishable key. The management button is hidden until configured.
+Deployment: dedicated Supabase project `spnvneybufdooghsrybn`, connected to
+the existing GitHub Pages site. Public sign-ups are disabled. Only the shared
+owner-created Auth account is allowlisted. No passwords or secret keys are
+stored in this repository.
+
+Verified on the database: RLS enabled on all content tables, public gallery
+reads, draft hiding, anonymous insert denial, allowlist write denial, and
+allowlisted account insert/update. Security advisors returned no findings.
+Browser login and image upload should also be checked after deployment.
 
 Setup:
 
@@ -14,8 +20,9 @@ Setup:
    Do not enter the password into source control, SQL scripts, or chat.
 4. Insert that existing Auth user's UUID into `cms_admins` using a privileged
    dashboard/SQL operation. No browser role can edit this allowlist.
-5. Set the project URL, public publishable key, and shared login email in
-   `site/cms-config.js`. Never use a secret/service-role key in browser code.
+5. Set the project URL and public publishable key in `site/cms-config.js`.
+   Keep the login email out of public source code; owners enter it at login.
+   Never use a secret/service-role key in browser code.
 6. Verify anonymous write denial, non-admin write denial, owner login, image
    upload, draft vs published update, archive/restore, conflicting concurrent
    saves, and public reading from a separate unsigned-in browser.

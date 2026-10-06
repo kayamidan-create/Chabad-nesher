@@ -44,6 +44,7 @@ create policy admin_gallery_edit on public.cms_gallery for update to authenticat
 create function public.cms_timestamp() returns trigger language plpgsql set search_path='' as $$ begin new.updated_at=clock_timestamp();return new;end $$;
 create trigger update_timestamp before update on public.cms_updates for each row execute function public.cms_timestamp();
 create trigger gallery_timestamp before update on public.cms_gallery for each row execute function public.cms_timestamp();
+revoke execute on function public.cms_timestamp() from public, anon, authenticated;
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('site-media','site-media',true,10485760,array['image/jpeg','image/png','image/webp']);
 create policy admin_media_read on storage.objects for select to authenticated using(bucket_id='site-media' and exists(select 1 from public.cms_admins where user_id=(select auth.uid())));
 create policy admin_media_upload on storage.objects for insert to authenticated with check(bucket_id='site-media' and (storage.foldername(name))[1]='uploads' and exists(select 1 from public.cms_admins where user_id=(select auth.uid())));
