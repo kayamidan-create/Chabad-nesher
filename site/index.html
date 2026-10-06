@@ -3,6 +3,19 @@
 <head>
 <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width,initial-scale=1'>
+<script>
+// Open the home page at the top instead of restoring an old browser position.
+// Explicit section links still work, including the navigation within this page.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+addEventListener('pageshow', () => {
+  if (!location.hash) {
+    scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    requestAnimationFrame(() => {
+      if (!location.hash) scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    });
+  }
+});
+</script>
 <meta name='description' content='בית חב״ד עמק הכרמל בנשר – תפילות, שיעורי תורה וחסידות, פעילות לילדים, זמני שבת ועדכונים מהקהילה.'>
 <meta name='theme-color' content='#71533a'>
 <link rel='icon' type='image/svg+xml' href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2371533a'/%3E%3Cpath d='M19 43h26v7H19zM23 38h18v5H23z' fill='%23f6f0e5'/%3E%3Cpath d='M32 10c6 7 7 12 0 18-7-6-6-11 0-18z' fill='%23d5a33d'/%3E%3Crect x='29' y='26' width='6' height='12' rx='2' fill='%23f6f0e5'/%3E%3C/svg%3E">
